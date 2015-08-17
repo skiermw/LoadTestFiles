@@ -1,0 +1,22 @@
+{
+	"address": {
+			"city": "Skokie",
+			"county": "Cook",
+			"id": "e73fa9f3c9b64fedb6e89a51f7d87c8f",
+			"latitude": 42.0101,
+			"longitude": -87.75354,
+			"state": "IL",
+			"street": "5014 Estes Ave",
+			"zip": "60077-3520"
+		},
+	"applicant": {
+			"age": 58,
+			"birthDate": "1956-09-10",
+			"email": "KATHY@BOCKETT.com",
+			"firstName": "KATHY",
+			"gender": "Female",
+			"lastName": "BOCKETT",
+			"maritalStatus": "Single"
+		},
+	"channelOfOrigin": "PublicWebsite"
+}
