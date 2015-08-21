@@ -1,0 +1,226 @@
+{
+	u'timestamp': u'2015-08-17T20: 36: 29.396Z',
+	u'effectiveTimestamp': u'2015-08-17T20: 36: 29.396Z',
+	u'storeRevision': 17717,
+	u'streamId': u'e7882c2c120b45048ca462de0f215e13',
+	u'streamRevision': 1,
+	u'events': [{
+		u'quote': {
+			u'status': u'Active',
+			u'vehicles': [{
+				u'coverages': [{
+					u'type': u'BodilyInjury',
+					u'id': u'22d9cf70606c43109152bfda107c5447',
+					u'limits': [{
+						u'type': u'PerPerson',
+						u'id': u'82039cb7b0e44ecda1d2b9198ee61cbb',
+						u'value': 250000
+					},
+					{
+						u'type': u'PerOccurrence',
+						u'id': u'e04c1590949049f5981adaabf5a63fa0',
+						u'value': 500000
+					}]
+				},
+				{
+					u'type': u'PropertyDamage',
+					u'id': u'4a55cbc3b94e44d48289324d29b3802b',
+					u'limits': [{
+						u'type': u'PerOccurrence',
+						u'id': u'43c7ba2a08044876b1331abd85b2f046',
+						u'value': 250000
+					}]
+				},
+				{
+					u'type': u'UninsuredMotorist',
+					u'id': u'4209340b53b7485da093d356087f0404',
+					u'limits': [{
+						u'type': u'PerPerson',
+						u'id': u'2e2fb048d2c8426fa7d4f6f8318803f1',
+						u'value': 25000
+					},
+					{
+						u'type': u'PerOccurrence',
+						u'id': u'440e88d8576744f6bb96c19f2c12a78a',
+						u'value': 50000
+					}]
+				},
+				{
+					u'type': u'Collision',
+					u'id': u'6a74899aaf614d23885cb9693c865851',
+					u'limits': [{
+						u'type': u'Deductible',
+						u'id': u'd67199c491ba4187a3454887d9c0ed33',
+						u'value': 1000
+					}]
+				}],
+				u'trim': u'Ext.PassengerVan',
+				u'make': u'Pontiac',
+				u'trimCode': u'1',
+				u'vin': u'1GMDX03E63D154385',
+				u'previouslyInsured': False,
+				u'pseudoVin': u'MX03',
+				u'year': 2003,
+				u'model': u'Montana',
+				u'id': u'562da2be37f1442f8e94b04df38a53b6'
+			},
+			{
+				u'coverages': [{
+					u'type': u'BodilyInjury',
+					u'id': u'171154ace5734a96889f8474dd07ab3f',
+					u'limits': [{
+						u'type': u'PerPerson',
+						u'id': u'53fe469992334be78b88dd73513749e1',
+						u'value': 250000
+					},
+					{
+						u'type': u'PerOccurrence',
+						u'id': u'0fc3ce913eee45cc819d95161e40ae99',
+						u'value': 500000
+					}]
+				},
+				{
+					u'type': u'PropertyDamage',
+					u'id': u'fa0172d4cdc44171a86a8c32cea3a97f',
+					u'limits': [{
+						u'type': u'PerOccurrence',
+						u'id': u'3fe5485b273e4f79abf28a69859e5de1',
+						u'value': 250000
+					}]
+				},
+				{
+					u'type': u'UninsuredMotorist',
+					u'id': u'eb0d17bc466f423b8819d9420872918c',
+					u'limits': [{
+						u'type': u'PerPerson',
+						u'id': u'cd64089025e34a4fb21065c47913387e',
+						u'value': 25000
+					},
+					{
+						u'type': u'PerOccurrence',
+						u'id': u'a14606920b824e3d9d2de43d1fad0e66',
+						u'value': 50000
+					}]
+				},
+				{
+					u'type': u'Collision',
+					u'id': u'ef35046f9e2940338a8cab645c9998e7',
+					u'limits': [{
+						u'type': u'Deductible',
+						u'id': u'e01b58880d7943e5975609b2c99d5e69',
+						u'value': 1000
+					}]
+				}],
+				u'trim': u'4wd4dr',
+				u'make': u'Chevrolet',
+				u'trimCode': u'1',
+				u'vin': u'1GNDT13WXT2155413',
+				u'previouslyInsured': False,
+				u'pseudoVin': u'NT13',
+				u'year': 1996,
+				u'model': u'Blazer',
+				u'id': u'9139e00cfb254407b9ab6c88820dde06'
+			},
+			{
+				u'coverages': [{
+					u'type': u'BodilyInjury',
+					u'id': u'c45da93bf34f429c8430c92fcb2e0336',
+					u'limits': [{
+						u'type': u'PerPerson',
+						u'id': u'a851cb5b6e704052a2ea84850f3a1faa',
+						u'value': 250000
+					},
+					{
+						u'type': u'PerOccurrence',
+						u'id': u'e04aa589ead3462981dbad48ccf32e47',
+						u'value': 500000
+					}]
+				},
+				{
+					u'type': u'PropertyDamage',
+					u'id': u'5ba06503e48c4a8eb2d3345418f4aabc',
+					u'limits': [{
+						u'type': u'PerOccurrence',
+						u'id': u'c972005a07904ab392093591dee63559',
+						u'value': 250000
+					}]
+				},
+				{
+					u'type': u'UninsuredMotorist',
+					u'id': u'fe70eea879854fa187b1ff1a16f8c455',
+					u'limits': [{
+						u'type': u'PerPerson',
+						u'id': u'78fb826cb81041c9adfa2e29695a7a9c',
+						u'value': 25000
+					},
+					{
+						u'type': u'PerOccurrence',
+						u'id': u'449f63f087824085bdf341361de161b9',
+						u'value': 50000
+					}]
+				},
+				{
+					u'type': u'Collision',
+					u'id': u'6de79a20f01d4bf8b8608c7170960d13',
+					u'limits': [{
+						u'type': u'Deductible',
+						u'id': u'240c5a08b4fd45619187bd6c4de4699c',
+						u'value': 1000
+					}]
+				}],
+				u'trim': u'Limited4dr',
+				u'make': u'Buick',
+				u'trimCode': u'1',
+				u'vin': u'1G4HR52L8RH510281',
+				u'previouslyInsured': False,
+				u'pseudoVin': u'4HR5',
+				u'year': 1994,
+				u'model': u'LeSabre',
+				u'id': u'b06dba564e004975aebdbf4ecaca3f3e'
+			}],
+			u'effectiveDate': u'2015-08-17T20: 36: 28.528Z',
+			u'channelOfOrigin': u'PublicWebsite',
+			u'drivers': [{
+				u'firstName': u'Kathy',
+				u'gender': u'Female',
+				u'age': 2014,
+				u'licenseNumber': u'*******',
+				u'birthDate': u'0001-01-01',
+				u'licenseState': u'IL',
+				u'lastName': u'Bockett',
+				u'id': u'1eaad81d038e426bbace2039e643bf45'
+			},
+			{
+				u'firstName': u'Jeffrey',
+				u'gender': u'Male',
+				u'age': 29,
+				u'licenseNumber': u'*******',
+				u'birthDate': u'0001-01-01',
+				u'licenseState': u'IL',
+				u'lastName': u'Bockett',
+				u'id': u'79621080a8f5477bb06aafdad60d462c'
+			}],
+			u'applicant': {
+				u'firstName': u'Kathy',
+				u'gender': u'Female',
+				u'age': 2014,
+				u'birthDate': u'0001-01-01',
+				u'lastName': u'Bockett',
+				u'id': u'1eaad81d038e426bbace2039e643bf45'
+			},
+			u'address': {
+				u'city': u'Skokie',
+				u'zip': u'60077-3520',
+				u'longitude': -87.75354,
+				u'county': u'Cook',
+				u'state': u'IL',
+				u'street': u'5014EstesAve',
+				u'latitude': 42.0101,
+				u'id': u'd178093961124f8eb162749d67fde307'
+			},
+			u'id': u'e7882c2c120b45048ca462de0f215e13'
+		},
+		u'id': u'46672ca55b674a64ac9208f2f5ef5106',
+		u'@class': u'events.quote.QuoteCreated'
+	}]
+}

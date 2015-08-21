@@ -14,23 +14,25 @@ def ReadPolJSON():
     filename = 'policy.json'
 
     pol_json = []
-    #data = json.load(infile)
+
     with open(filename) as pol_file:
         pol_json = json.load(pol_file)
-
-    return pol_json
-         
-
+        for policy in pol_json['policies']:
+            CreateQuote(policy)
     
 
 def CreateQuote(pol_json):
+    # Set environment
+    environ = 'demo'
     # Address, Applicant, 
     #  Create the quote with policy json body
+    
     url = 'http://dcdemoappsrv1:8083/direct/quote'
     response = requests.post(url, data=json.dumps(pol_json))
     quote_auth_token = response.headers['quoteauthtoken']
     quote_json = json.loads(response.text)
-    
+    #print('quote_json')
+    #print(quote_json)
     quote_stream_id = quote_json['streamId']
     quote_stream_rev = quote_json['streamRevision']
     print ('Stream ID: %s ' % quote_stream_id)
@@ -64,12 +66,14 @@ def CreateQuote(pol_json):
         veh['model'] = vehicle['model']
         veh['trim'] = vehicle['trim']
         veh['vin'] = vehicle['vin']
+        veh['lengthOfOwnership'] = vehicle['lengthOfOwnership']
         veh['ownership'] = vehicle['ownership']
-        veh['bussinessUse'] = vehicle['businessUse']
+        veh['businessUse'] = vehicle['businessUse']
         if 'antiTheftDevice' in vehicle:
             veh['antiTheftDevice'] = vehicle['antiTheftDevice']
         #  write vehicle
         url = 'http://dcdemoappsrv1:8083/direct/quote/%s/%s/vehicle' % (quote_stream_id, quote_stream_rev)
+        #print('veh')
         #print(veh)
         payload = json.dumps(veh)
         headers = {'quoteAuthToken': quote_auth_token}
@@ -114,30 +118,35 @@ def CreateQuote(pol_json):
     #print(response.text)
     #print(response.url)
     print('Update Coverages status = %s' % response.status_code)
-    print ('Stream Rev: %s' % quote_stream_rev)
+    #print ('Stream Rev: %s' % quote_stream_rev)
     
-    ##### clean up clients
+    ########################################################################################
+    ##### delete all drivers
     drivers_coll = []
+    applicant_id = quote_json['events'][0]['quote']['applicant']['id']
     for driver in quote_json['events'][0]['quote']['drivers']:
-        drivers_coll.append( driver['id'])
+        #  Special processing for driver that is also applicant (can't delete that driver)
+        if driver['id'] == applicant_id:
+            continue
+        else:
+            drivers_coll.append( driver['id'])
     url = 'http://dcdemoappsrv1:8083/direct/quote/%s/%s/drivers' % (quote_stream_id, quote_stream_rev)
     payload = {'ids': json.dumps(drivers_coll)}
     headers = {'quoteAuthToken': quote_auth_token}
     response = requests.delete(url, params=payload, headers=headers)
     quote_stream_rev =  quote_stream_rev + 1
-    print('driver delete response:')
-    print(response.text)
+    #print('Delete driver response:')
+    #print(response.text)
     print('driver delete response: %s' % response.status_code)
     
     # add drivers from input json back on
     #  create json for coverages 
     
     drivers = []
-    
+    driver_ct = 0
     for driver in pol_json['drivers']:
-        print('@@@@@@@@@@ Driver')
+        #print('@@@@@@@@@@ Driver')
         driver_body = {}
-        
         driver_body['firstName'] = driver['firstName']
         driver_body['middleName'] = driver['middleName']
         driver_body['lastName'] = driver['lastName']
@@ -147,45 +156,98 @@ def CreateQuote(pol_json):
         driver_body['gender'] = driver['gender']
         driver_body['ssn'] = driver['ssn']
         driver_body['maritalStatus'] = driver['maritalStatus']
-        #  write driver
-        url = 'http://dcdemoappsrv1:8083/direct/quote/%s/%s/driver' % (quote_stream_id, quote_stream_rev)
+        driver_body['licenseNumber'] = driver['licenseNumber']
+        driver_body['licenseState'] = driver['licenseState']
         
+        #  write driver
+          
         payload = json.dumps(driver_body)
         headers = {'quoteAuthToken': quote_auth_token}
-        response = requests.post(url, data=payload, headers=headers)
+        # assuming first driver is the applicant (which can't be deleted) so update with needed info
+        #   all other drivers will be deleted from quote then re-added from json
+        if driver_ct == 0:
+            url = 'http://dcdemoappsrv1:8083/direct/quote/%s/%s/driver/%s' % (quote_stream_id, quote_stream_rev, applicant_id)
+            response = requests.put(url, data=payload, headers=headers)
+            print('Update driver status = %s' % response.status_code)
+            #print(response.text)
+        else:
+            url = 'http://dcdemoappsrv1:8083/direct/quote/%s/%s/driver' % (quote_stream_id, quote_stream_rev)
+            response = requests.post(url, data=payload, headers=headers)
+            print('Add driver status = %s' % response.status_code)
+            
         quote_stream_rev =  quote_stream_rev + 1
-        print('Add driver status = %s' % response.status_code)
-        print(response.text)
-
-        url = 'http://dcdemoappsrv1:8083/direct/quote/%s/%s/rate' % (quote_stream_id, quote_stream_rev)
-        headers = {'quoteAuthToken': quote_auth_token}
-        data = urllib.urlencode(pol_json)
-        response = requests.post(url, data=payload, headers=headers)
-        print (' ')
-        print(response.text)
-        print(response.status_code)
-        print(response.url)
-
-'''    
-def RateQuote(quote_stream_id, quote_stream_rev, quote_auth_token):
-    url = 'http://dcdemoappsrv1:8083/direct/quote/%s/%s/rate' % (quote_stream_id, quote_stream_rev)
+        driver_ct = driver_ct + 1
+        
+    ### get Clue and MVR
+    url = 'http://dcdemoappsrv1:8083/direct/quote/%s/%s/drivingRecord' % (quote_stream_id, quote_stream_rev)
     headers = {'quoteAuthToken': quote_auth_token}
     data = urllib.urlencode(pol_json)
     response = requests.post(url, data=payload, headers=headers)
-    print (' ')
-    print(response.text)
-    print(response.status_code)
-    print(response.url)
-'''    
+    quote_stream_rev =  quote_stream_rev + 1
+    #print (' Clue / MVR')
+    #print(response.text)
+    print("Clue/MVR: %s" % response.status_code)
+    #print(response.url)
+    
+    ### Rate this puppy
+    rating_channel = {"ratingChannel":"PublicWebsite"}
+    url = 'http://dcdemoappsrv1:8083/direct/quote/%s/%s/rate' % (quote_stream_id, quote_stream_rev)
+    headers = {'quoteAuthToken': quote_auth_token}
+    data = json.dumps(rating_channel)
+    response = requests.post(url, data=data, headers=headers)
+    quote_stream_rev =  quote_stream_rev + 1
+    #print(response.text)
+    print("Rate: %s" % response.status_code)
+    response_json = json.loads(response.text)
+    quote_stream_rev = response_json['streamRevision']
+
+    ### Answer Speed Racer question
+    speed_racer = {"isASpeedRacer":'false'}
+    url = 'http://dcdemoappsrv1:8083/direct/quote/%s/%s' % (quote_stream_id, quote_stream_rev)
+    headers = {'quoteAuthToken': quote_auth_token}
+    data = json.dumps(speed_racer)
+    response = requests.patch(url, data=data, headers=headers)
+    response_json = json.loads(response.text)
+    #print(response.text)
+    print("Speed Racer: %s" % response.status_code)
+    #print(response.url)
+    quote_stream_rev = response_json['streamRevision']
+
+    ### Generate Policy Number
+    url = 'http://dcdemoappsrv1:8083/direct/quote/%s/%s/policyNumber' % (quote_stream_id, quote_stream_rev)
+    headers = {'quoteAuthToken': quote_auth_token}
+    response = requests.post(url, headers=headers)
+    response_json = json.loads(response.text)
+    #print(response.text)
+    print("Policy Number: %s" % response.status_code)
+    #print(response.url)CreateQuote(pol_json)
+    quote_stream_rev = response_json['streamRevision']
+
+    ### Purchase
+    body = {}
+    body['quoteId'] = quote_stream_id
+    body['ipAddress'] = '10.8.30.145'
+    body['expectedStreamRevision'] = quote_stream_rev
+    body['channelOfOrigin'] = 'PublicWebsite'
+    data = urllib.urlencode(body)
+    #print(data)
+    url = 'http://dcdemoappsrv1:8083/direct/policy?%s' % data
+    headers = {'quoteAuthToken': quote_auth_token}
+    response = requests.post(url, headers=headers)
+    #print(response.text)
+    print("Purchase: %s" % response.status_code)
+    #print(response.url)
+    response_json = json.loads(response.text)
+    policy_stream_rev = response_json['streamRevision']
+    print('Policy stream rev: %s' % policy_stream_rev)
+    print(response_json['events'][0]['id'])
+    
 def main():
    
-   pol_json = ReadPolJSON()
+   #pol_json = ReadPolJSON()
+   #CreateQuote(pol_json)
    
-   CreateQuote(pol_json)
-   #Vehicle()
-   #Driver()
-   #NamedInsured()
-   
+   ReadPolJSON()
    
    
    
