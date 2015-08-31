@@ -32,13 +32,14 @@ def CreateQuote(pol_json):
     response = requests.post(url, data=json.dumps(pol_json))
     quote_auth_token = response.headers['quoteauthtoken']
     quote_json = json.loads(response.text)
-    print('quote status: %s' % response.status_code)
+    if response.status_code != 200:
+        print('quote status: %s' % response.status_code)
     #print(quote_json)
     quote_stream_id = quote_json['streamId']
     quote_stream_rev = quote_json['streamRevision']
-    print ('Stream ID: %s ' % quote_stream_id)
-    print ('Stream Rev: %s' % quote_stream_rev)
-    print ('Auth Token: %s' % quote_auth_token)
+    #print ('Stream ID: %s ' % quote_stream_id)
+    #print ('Stream Rev: %s' % quote_stream_rev)
+    #print ('Auth Token: %s' % quote_auth_token)
         
     # remove all vehicles
     veh_coll = []
@@ -52,7 +53,8 @@ def CreateQuote(pol_json):
     quote_stream_rev = response_json['streamRevision']
     #print('vehicle delete response:')
     #print(response.text)
-    print('vehicle delete response: %s' % response.status_code)
+    if response.status_code != 200:
+        print('vehicle delete response: %s' % response.status_code)
     
     # add vehicles from input json back on
     #  create json for coverages 
@@ -80,7 +82,8 @@ def CreateQuote(pol_json):
         response = requests.post(url, data=payload, headers=headers)
         response_json = json.loads(response.text)
         quote_stream_rev = response_json['streamRevision']
-        print('Add vehicle status: %s' % response.status_code)
+        if response.status_code != 200:
+            print('Add vehicle status: %s' % response.status_code)
 
         # read the response to get new vehicle id
         #response_json = json.loads(response.text)
@@ -106,7 +109,8 @@ def CreateQuote(pol_json):
             if response.status_code == 200:
                 quote_stream_rev = response_json['streamRevision']
                 
-            print('Add finance co status: %s' % response.status_code)
+            if response.status_code != 200:
+                print('Add finance co status: %s' % response.status_code)
             #print(response.url)
             #print(response.text)
         
@@ -139,7 +143,8 @@ def CreateQuote(pol_json):
     payload = json.dumps(coverage_input)
     headers = {'quoteAuthToken': quote_auth_token}
     response = requests.put(url, data=payload, headers=headers)
-    print('Update Coverages status: %s' % response.status_code)
+    if response.status_code != 200:
+        print('Update Coverages status: %s' % response.status_code)
    
     response_json = json.loads(response.text)
     if response.status_code == 200:
@@ -171,7 +176,8 @@ def CreateQuote(pol_json):
     quote_stream_rev =  quote_stream_rev + 1
     #print('Delete driver response:')
     #print(response.text)
-    print('driver delete response: %s' % response.status_code)
+    if response.status_code != 200:
+        print('driver delete response: %s' % response.status_code)
     
     # add drivers from input json back on
     #  create json for coverages 
@@ -202,12 +208,14 @@ def CreateQuote(pol_json):
         if driver_ct == 0:
             url = 'http://dcdemoappsrv1:8083/direct/quote/%s/%s/driver/%s' % (quote_stream_id, quote_stream_rev, applicant_id)
             response = requests.put(url, data=payload, headers=headers)
-            print('Update driver status: %s' % response.status_code)
+            if response.status_code != 200:
+                print('Update driver status: %s' % response.status_code)
             #print(response.text)
         else:
             url = 'http://dcdemoappsrv1:8083/direct/quote/%s/%s/driver' % (quote_stream_id, quote_stream_rev)
             response = requests.post(url, data=payload, headers=headers)
-            print('Add driver status: %s' % response.status_code)
+            if response.status_code != 200:
+                print('Add driver status: %s' % response.status_code)
             [{"failureCodes":[{"code":"InvalidLimitType","defaultMessage":"Uninsured Motorist Property Damage coverage requires Per Occurrence and Deductible limits. It cannot have other types."}],"field":"vehicles[0].coverages[5]"},{"failureCodes":[{"code":"UmpdPrerequisiteRequired","defaultMessage":"Collision coverage must be absent when buying Uninsured Motorist Property Damage coverage"}],"field":"vehicles[0]"}]
         quote_stream_rev =  quote_stream_rev + 1
         driver_ct = driver_ct + 1
@@ -220,7 +228,8 @@ def CreateQuote(pol_json):
     quote_stream_rev =  quote_stream_rev + 1
     #print (' Clue / MVR')
     #print(response.text)
-    print("Clue/MVR: %s" % response.status_code)
+    if response.status_code != 200:
+        print("Clue/MVR: %s" % response.status_code)
     #print(response.url)
     
     ### Rate this puppy
@@ -231,7 +240,8 @@ def CreateQuote(pol_json):
     response = requests.post(url, data=data, headers=headers)
     quote_stream_rev =  quote_stream_rev + 1
     #print(response.text)
-    print("Rate: %s" % response.status_code)
+    if response.status_code != 200:
+        print("Rate: %s" % response.status_code)
     response_json = json.loads(response.text)
     if response.status_code == '200':
         quote_stream_rev = response_json['streamRevision']
@@ -244,7 +254,8 @@ def CreateQuote(pol_json):
     response = requests.patch(url, data=data, headers=headers)
     response_json = json.loads(response.text)
     #print(response.text)
-    print("Speed Racer: %s" % response.status_code)
+    if response.status_code != 200:
+        print("Speed Racer: %s" % response.status_code)
     #print(response.url)
     quote_stream_rev = response_json['streamRevision']
 
@@ -254,7 +265,8 @@ def CreateQuote(pol_json):
     response = requests.post(url, headers=headers)
     response_json = json.loads(response.text)
     #print(response.text)
-    print("Policy Number: %s" % response.status_code)
+    if response.status_code != 200:
+        print("Policy Number: %s" % response.status_code)
     #print(response.url)CreateQuote(pol_json)
     quote_stream_rev = response_json['streamRevision']
 
@@ -270,15 +282,17 @@ def CreateQuote(pol_json):
     headers = {'quoteAuthToken': quote_auth_token}
     response = requests.post(url, headers=headers)
     #print(response.text)
-    print("Purchase: %s" % response.status_code)
+    if response.status_code != 200:
+        print("Purchase: %s" % response.status_code)
     #print(response.url)
     response_json = json.loads(response.text)
     policy_stream_rev = response_json['streamRevision']
-    
-    print('Policy stream rev: %s' % policy_stream_rev)
-    print('Policy stream ID: %s' % response_json['streamId'])
-    print('Policy eff date: %s' % response_json['timestamp'])
+
     print('Policy description: %s' % pol_json['testPolicyDescription'])
+    print('  Policy stream rev: %s' % policy_stream_rev)
+    print('  Policy stream ID: %s' % response_json['streamId'])
+    print('  Policy eff date: %s' % response_json['timestamp'])
+    
 
     ### Get Policy Number
 '''    
