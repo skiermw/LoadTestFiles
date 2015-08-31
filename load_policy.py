@@ -269,7 +269,7 @@ def CreateQuote(pol_json):
         print("Policy Number: %s" % response.status_code)
     #print(response.url)CreateQuote(pol_json)
     quote_stream_rev = response_json['streamRevision']
-
+    policy_number = response_json['events'][0]['policyNumber']
     ### Purchase
     body = {}
     body['quoteId'] = quote_stream_id
@@ -289,13 +289,14 @@ def CreateQuote(pol_json):
     policy_stream_rev = response_json['streamRevision']
 
     print('Policy description: %s' % pol_json['testPolicyDescription'])
+    print('  Policy Number: %s' % policy_number)
     print('  Policy stream rev: %s' % policy_stream_rev)
     print('  Policy stream ID: %s' % response_json['streamId'])
     print('  Policy eff date: %s' % response_json['timestamp'])
     
-
+'''
     ### Get Policy Number
-'''    
+    
     body = {}
     body['everything'] = 'true'
     body['discounts'] = 'true'
@@ -315,11 +316,9 @@ def CreateQuote(pol_json):
     response_json = json.loads(response.text)
     
     print("Policy Number: %s" % response_json['policyNumber'])
-'''    
+'''  
 def main():
    
-   #pol_json = ReadPolJSON()
-   #CreateQuote(pol_json)
    
    ReadPolJSON()
    
