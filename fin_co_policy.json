@@ -1,6 +1,4 @@
-{
-	"policies": 
-	[
+{"policies": [
 		{
 			"additionalListedInsureds":[],
 			"address":{
@@ -19,6 +17,9 @@
 				"maritalStatus":"Single"
 			},
 			"channelOfOrigin":"PublicWebsite",
+			"clueReferenceNumbers":[
+				"15174181300372"
+			],
 			"company":"ShelterGeneral",
 			"coverages":[],
 			"discounts":[
@@ -89,93 +90,100 @@
 					"maritalStatus":"Single"
 				}
 			],
+			"nonDescribedVehicle":{
+				"coverages":[
+					{
+						"limits":[
+							{
+								"type":"PerPerson",
+								"value":250000
+							},
+							{
+								"type":"PerOccurrence",
+								"value":500000
+							}
+						],
+						"type":"BodilyInjury"
+					},
+					{
+						"limits":[
+							{
+								"type":"PerOccurrence",
+								"value":250000
+							}
+						],
+						"type":"PropertyDamage"
+					},
+					{
+						"limits":[
+							{
+								"type":"PerPerson",
+								"value":5000
+							}
+						],
+						"type":"MedicalPayments"
+					},
+					{
+						"limits":[
+							{
+								"type":"PerPerson",
+								"value":25000
+							},
+							{
+								"type":"PerOccurrence",
+								"value":50000
+							}
+						],
+						"type":"UninsuredMotorist"
+					},
+					{
+						"limits":[
+							{
+								"type":"Deductible",
+								"value":1000
+							}
+						],
+						"type":"Collision"
+					}
+				],
+				"permissiveUserCoverages":[
+					{
+						"limits":[
+							{
+								"type":"PerPerson",
+								"value":25000
+							},
+							{
+								"type":"PerOccurrence",
+								"value":50000
+							}
+						],
+						"type":"BodilyInjury"
+					},
+					{
+						"limits":[
+							{
+								"type":"PerOccurrence",
+								"value":25000
+							}
+						],
+						"type":"PropertyDamage"
+					}
+				]
+			},
 			"notices":[
 				"DNI-1020"
 			],
+			"policyNumber":"000000011",
+			"revision":1,
+			"revisionTimestamp":"2015-08-05T15:01:23.979Z",
 			"status":"Active",
 			"term":6,
 			"territory":"28",
+			"totalDiscount":103.13,
+			"totalPremium":1707.95,
 			"vehicles":[
-				{
-					"antiTheftDevice":true,
-					"businessUse":"NonBusinessUse",
-					"costSymbol":"025",
-					"coverages":[
-						{
-							"limits":[
-								{
-									"type":"PerPerson",
-									"value":250000
-								},
-								{
-									"type":"PerOccurrence",
-									"value":500000
-								}
-							],
-							"type":"BodilyInjury"
-						},
-						{
-							"limits":[
-								{
-									"type":"PerOccurrence",
-									"value":250000
-								}
-							],
-							"type":"PropertyDamage"
-						},
-						{
-							"limits":[
-								{
-									"type":"PerPerson",
-									"value":5000
-								}
-							],
-							"type":"MedicalPayments"
-						},
-						{
-							"limits":[
-								{
-									"type":"PerPerson",
-									"value":25000
-								},
-								{
-									"type":"PerOccurrence",
-									"value":50000
-								}
-							],
-							"type":"UninsuredMotorist"
-						},
-						{
-							"limits":[
-								{
-									"type":"Deductible",
-									"value":1000
-								}
-							],
-							"type":"Collision"
-						},
-						{
-							"limits":[
-								{
-									"type":"PerOccurrence",
-									"value":100
-								}
-							],
-							"type":"RoadsideAssistance"
-						}
-					],
-					"lengthOfOwnership":"ShorterThan90Days",
-					"make":"Pontiac",
-					"model":"Montana",
-					"ownership":"Owned",
-					"previouslyInsured":true,
-					"pseudoVin":"  M X03 ",
-					"sequence":1,
-					"trim":"Ext. Passenger Van",
-					"trimCode":"1",
-					"vin":"1GMDX03E63D154385",
-					"year":2003
-				},
+				
 				{
 					"businessUse":"NonBusinessUse",
 					"costSymbol":"043",
@@ -193,7 +201,24 @@
 							],
 							"type":"BodilyInjury"
 						},
-						
+						{	
+							"limits":[
+								{
+									"type":"Deductible",
+									"value":500
+								}
+							],
+							"type":"Collision"
+						},
+						{
+							"limits":[
+								{
+									"type":"Deductible",
+									"value":500
+								}
+							],
+							"type":"Comprehensive"
+						},
 						{
 							"limits":[
 								{
@@ -235,10 +260,21 @@
 							"type":"RoadsideAssistance"
 						}
 					],
+					"financeCompany":{
+						"name": "Money Grabbers Anon",
+						"loanNumber": "1337",
+						"address": {
+								"street": "6640 N DAMEN AVE",
+								"street2": "Apt 2E",
+								"city": "Chicago",
+								"state": "ILLINOIS",
+								"zip": "60645"
+						}
+					},
 					"lengthOfOwnership":"ShorterThan90Days",
 					"make":"Lexus",
 					"model":"RX 400H",
-					"ownership":"Owned",
+					"ownership":"Financed",
 					"previouslyInsured":true,
 					"pseudoVin":" T HW 1U",
 					"sequence":2,

@@ -1,7 +1,6 @@
-{
-	"policies": 
-	[
+{"policies": [
 		{
+			"testPolicyDescription":"Policy with leased vehicle and owned vehicle",
 			"additionalListedInsureds":[],
 			"address":{
 				"city":"Skokie",
@@ -19,6 +18,9 @@
 				"maritalStatus":"Single"
 			},
 			"channelOfOrigin":"PublicWebsite",
+			"clueReferenceNumbers":[
+				"15174181300372"
+			],
 			"company":"ShelterGeneral",
 			"coverages":[],
 			"discounts":[
@@ -92,10 +94,115 @@
 			"notices":[
 				"DNI-1020"
 			],
+			"policyNumber":"000000011",
+			"revision":1,
+			"revisionTimestamp":"2015-08-05T15:01:23.979Z",
 			"status":"Active",
 			"term":6,
 			"territory":"28",
+			"totalDiscount":103.13,
+			"totalPremium":1707.95,
 			"vehicles":[
+				
+				{
+					"businessUse":"NonBusinessUse",
+					"costSymbol":"043",
+					"coverages":[
+						{
+							"limits":[
+								{
+									"type":"PerPerson",
+									"value":250000
+								},
+								{
+									"type":"PerOccurrence",
+									"value":500000
+								}
+							],
+							"type":"BodilyInjury"
+						},
+						{	
+							"limits":[
+								{
+									"type":"Deductible",
+									"value":500
+								}
+							],
+							"type":"Collision"
+						},
+						{
+							"limits":[
+								{
+									"type":"Deductible",
+									"value":500
+								}
+							],
+							"type":"Comprehensive"
+						},
+						{
+							"limits":[
+								{
+									"type":"PerOccurrence",
+									"value":250000
+								}
+							],
+							"type":"PropertyDamage"
+						},
+						{
+							"limits":[
+								{
+									"type":"PerPerson",
+									"value":5000
+								}
+							],
+							"type":"MedicalPayments"
+						},
+						{
+							"limits":[
+								{
+									"type":"PerPerson",
+									"value":25000
+								},
+								{
+									"type":"PerOccurrence",
+									"value":50000
+								}
+							],
+							"type":"UninsuredMotorist"
+						},
+						{
+							"limits":[
+								{
+									"type":"PerOccurrence",
+									"value":100
+								}
+							],
+							"type":"RoadsideAssistance"
+						}
+					],
+					"financeCompany":{
+						"name": "Money Grabbers Anon",
+						"loanNumber": "1337",
+						"address": {
+								"street": "6640 N DAMEN AVE",
+								"street2": "Apt 2E",
+								"city": "Chicago",
+								"state": "ILLINOIS",
+								"zip": "60645"
+						}
+					},
+					"lengthOfOwnership":"ShorterThan90Days",
+					"make":"Lexus",
+					"model":"RX 400H",
+					"ownership":"Leased",
+					"previouslyInsured":true,
+					"pseudoVin":" T HW 1U",
+					"sequence":2,
+					"trim":"AWD",
+					"trimCode":"1",
+					"vin":"JTJHW31U072030941",
+					"year":2007
+				},
 				{
 					"antiTheftDevice":true,
 					"businessUse":"NonBusinessUse",
@@ -149,19 +256,32 @@
 							"limits":[
 								{
 									"type":"Deductible",
-									"value":1000
+									"value":250
+								},
+								{
+									"type":"PerOccurrence",
+									"value":15000
 								}
 							],
-							"type":"Collision"
+							"type":"UninsuredMotoristPropertyDamage"
 						},
 						{
 							"limits":[
 								{
-									"type":"PerOccurrence",
-									"value":100
+									"type":"Deductible",
+									"value":1000
 								}
 							],
-							"type":"RoadsideAssistance"
+							"type":"Comprehensive"
+						},
+						{
+							"limits":[
+								{
+									"type":"PerDay",
+									"value":50
+								}
+							],
+							"type":"RentalReimbursement"
 						}
 					],
 					"lengthOfOwnership":"ShorterThan90Days",
@@ -175,77 +295,6 @@
 					"trimCode":"1",
 					"vin":"1GMDX03E63D154385",
 					"year":2003
-				},
-				{
-					"businessUse":"NonBusinessUse",
-					"costSymbol":"043",
-					"coverages":[
-						{
-							"limits":[
-								{
-									"type":"PerPerson",
-									"value":250000
-								},
-								{
-									"type":"PerOccurrence",
-									"value":500000
-								}
-							],
-							"type":"BodilyInjury"
-						},
-						
-						{
-							"limits":[
-								{
-									"type":"PerOccurrence",
-									"value":250000
-								}
-							],
-							"type":"PropertyDamage"
-						},
-						{
-							"limits":[
-								{
-									"type":"PerPerson",
-									"value":5000
-								}
-							],
-							"type":"MedicalPayments"
-						},
-						{
-							"limits":[
-								{
-									"type":"PerPerson",
-									"value":25000
-								},
-								{
-									"type":"PerOccurrence",
-									"value":50000
-								}
-							],
-							"type":"UninsuredMotorist"
-						},
-						{
-							"limits":[
-								{
-									"type":"PerOccurrence",
-									"value":100
-								}
-							],
-							"type":"RoadsideAssistance"
-						}
-					],
-					"lengthOfOwnership":"ShorterThan90Days",
-					"make":"Lexus",
-					"model":"RX 400H",
-					"ownership":"Owned",
-					"previouslyInsured":true,
-					"pseudoVin":" T HW 1U",
-					"sequence":2,
-					"trim":"AWD",
-					"trimCode":"1",
-					"vin":"JTJHW31U072030941",
-					"year":2007
 				}
 			]
 		}

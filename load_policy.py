@@ -10,11 +10,12 @@ import requests
 from collections import defaultdict
 
 def ReadPolJSON():
-    #filename = 'policy.json'
-    filename = 'policy.json'
-
+    #filename = 'leased_policy.json'
+    filename = 'claims_policies.json'
+    
+    #print('hey')
     pol_json = []
-
+    
     with open(filename) as pol_file:
         pol_json = json.load(pol_file)
         for policy in pol_json['policies']:
@@ -31,7 +32,7 @@ def CreateQuote(pol_json):
     response = requests.post(url, data=json.dumps(pol_json))
     quote_auth_token = response.headers['quoteauthtoken']
     quote_json = json.loads(response.text)
-    #print('quote_json')
+    print('quote status: %s' % response.status_code)
     #print(quote_json)
     quote_stream_id = quote_json['streamId']
     quote_stream_rev = quote_json['streamRevision']
@@ -47,7 +48,8 @@ def CreateQuote(pol_json):
     payload = {'ids': json.dumps(veh_coll)}
     headers = {'quoteAuthToken': quote_auth_token}
     response = requests.delete(url, params=payload, headers=headers)
-    quote_stream_rev =  quote_stream_rev + 1
+    response_json = json.loads(response.text)
+    quote_stream_rev = response_json['streamRevision']
     #print('vehicle delete response:')
     #print(response.text)
     print('vehicle delete response: %s' % response.status_code)
@@ -73,17 +75,41 @@ def CreateQuote(pol_json):
             veh['antiTheftDevice'] = vehicle['antiTheftDevice']
         #  write vehicle
         url = 'http://dcdemoappsrv1:8083/direct/quote/%s/%s/vehicle' % (quote_stream_id, quote_stream_rev)
-        #print('veh')
-        #print(veh)
         payload = json.dumps(veh)
         headers = {'quoteAuthToken': quote_auth_token}
         response = requests.post(url, data=payload, headers=headers)
-        quote_stream_rev =  quote_stream_rev + 1
-        print('Add vehicle status = %s' % response.status_code)
-        #print(response.text)
-        # read the response to get new vehicle id
         response_json = json.loads(response.text)
+        quote_stream_rev = response_json['streamRevision']
+        print('Add vehicle status: %s' % response.status_code)
+
+        # read the response to get new vehicle id
+        #response_json = json.loads(response.text)
         vehicle_body['id'] = response_json['events'][0]['vehicle']['id']
+        if 'financeCompany' in vehicle:
+            #print('finance company')
+            fin_co_input = {}
+            fin_co_input['name'] = vehicle['financeCompany']['name']
+            fin_co_input['loanNumber'] = vehicle['financeCompany']['loanNumber']
+            fin_co_input['address'] = {}
+            fin_co_input['address']['street'] = vehicle['financeCompany']['address']['street']
+            fin_co_input['address']['street2'] = vehicle['financeCompany']['address']['street2']
+            fin_co_input['address']['city'] = vehicle['financeCompany']['address']['city']
+            fin_co_input['address']['state'] = vehicle['financeCompany']['address']['state']
+            fin_co_input['address']['zip'] = vehicle['financeCompany']['address']['zip']
+            
+            #write finance company
+            url = 'http://dcdemoappsrv1:8083/direct/quote/%s/%s/vehicle/%s/financeCompany' % (quote_stream_id, quote_stream_rev, vehicle_body['id'])
+            payload = json.dumps(fin_co_input)
+            headers = {'quoteAuthToken': quote_auth_token}
+            response = requests.post(url, data=payload, headers=headers)
+            response_json = json.loads(response.text)
+            if response.status_code == 200:
+                quote_stream_rev = response_json['streamRevision']
+                
+            print('Add finance co status: %s' % response.status_code)
+            #print(response.url)
+            #print(response.text)
+        
         coverages = []
         for coverage in vehicle['coverages']:
             coverage_body = {}
@@ -113,11 +139,19 @@ def CreateQuote(pol_json):
     payload = json.dumps(coverage_input)
     headers = {'quoteAuthToken': quote_auth_token}
     response = requests.put(url, data=payload, headers=headers)
-    quote_stream_rev =  quote_stream_rev + 1
-    #print (' ')
-    #print(response.text)
+    print('Update Coverages status: %s' % response.status_code)
+   
+    response_json = json.loads(response.text)
+    if response.status_code == 200:
+        quote_stream_rev = response_json['streamRevision']
+    else:
+        print(' ')
+        print(response.url)
+        print(response.text)
+                
+
     #print(response.url)
-    print('Update Coverages status = %s' % response.status_code)
+    
     #print ('Stream Rev: %s' % quote_stream_rev)
     
     ########################################################################################
@@ -168,13 +202,13 @@ def CreateQuote(pol_json):
         if driver_ct == 0:
             url = 'http://dcdemoappsrv1:8083/direct/quote/%s/%s/driver/%s' % (quote_stream_id, quote_stream_rev, applicant_id)
             response = requests.put(url, data=payload, headers=headers)
-            print('Update driver status = %s' % response.status_code)
+            print('Update driver status: %s' % response.status_code)
             #print(response.text)
         else:
             url = 'http://dcdemoappsrv1:8083/direct/quote/%s/%s/driver' % (quote_stream_id, quote_stream_rev)
             response = requests.post(url, data=payload, headers=headers)
-            print('Add driver status = %s' % response.status_code)
-            
+            print('Add driver status: %s' % response.status_code)
+            [{"failureCodes":[{"code":"InvalidLimitType","defaultMessage":"Uninsured Motorist Property Damage coverage requires Per Occurrence and Deductible limits. It cannot have other types."}],"field":"vehicles[0].coverages[5]"},{"failureCodes":[{"code":"UmpdPrerequisiteRequired","defaultMessage":"Collision coverage must be absent when buying Uninsured Motorist Property Damage coverage"}],"field":"vehicles[0]"}]
         quote_stream_rev =  quote_stream_rev + 1
         driver_ct = driver_ct + 1
         
@@ -199,7 +233,8 @@ def CreateQuote(pol_json):
     #print(response.text)
     print("Rate: %s" % response.status_code)
     response_json = json.loads(response.text)
-    quote_stream_rev = response_json['streamRevision']
+    if response.status_code == '200':
+        quote_stream_rev = response_json['streamRevision']
 
     ### Answer Speed Racer question
     speed_racer = {"isASpeedRacer":'false'}
@@ -239,9 +274,34 @@ def CreateQuote(pol_json):
     #print(response.url)
     response_json = json.loads(response.text)
     policy_stream_rev = response_json['streamRevision']
-    print('Policy stream rev: %s' % policy_stream_rev)
-    print(response_json['events'][0]['id'])
     
+    print('Policy stream rev: %s' % policy_stream_rev)
+    print('Policy stream ID: %s' % response_json['streamId'])
+    print('Policy eff date: %s' % response_json['timestamp'])
+    print('Policy description: %s' % pol_json['testPolicyDescription'])
+
+    ### Get Policy Number
+'''    
+    body = {}
+    body['everything'] = 'true'
+    body['discounts'] = 'true'
+    body['coverages'] = 'true'
+    body['vehicles'] = 'true'
+    body['nonDescribedVehicle'] = 'true'
+    body['applicant'] = 'true'
+    body['drivers'] = 'true'
+    body['namedInsureds'] = 'true'
+    body['additionalListedInsureds'] = 'true'
+    body['timestamp'] = response_json['timestamp']
+    data = urllib.urlencode(body)
+    url = 'http://dcdemoappsrv1:8083/direct/policy/%s?%s' %  (response_json['streamId'], data)
+    response = requests.get(url)
+    print('Get Policy Number: %s' % response.status_code)
+    print(response.url)
+    response_json = json.loads(response.text)
+    
+    print("Policy Number: %s" % response_json['policyNumber'])
+'''    
 def main():
    
    #pol_json = ReadPolJSON()

@@ -2,6 +2,7 @@
 	"policies": 
 	[
 		{
+			"testPolicyDescription":"Policy with all coverages except Collision",
 			"additionalListedInsureds":[],
 			"address":{
 				"city":"Skokie",
@@ -149,19 +150,32 @@
 							"limits":[
 								{
 									"type":"Deductible",
-									"value":1000
+									"value":250
+								},
+								{
+									"type":"PerOccurrence",
+									"value":15000
 								}
 							],
-							"type":"Collision"
+							"type":"UninsuredMotoristPropertyDamage"
 						},
 						{
 							"limits":[
 								{
-									"type":"PerOccurrence",
-									"value":100
+									"type":"Deductible",
+									"value":1000
 								}
 							],
-							"type":"RoadsideAssistance"
+							"type":"Comprehensive"
+						},
+						{
+							"limits":[
+								{
+									"type":"PerDay",
+									"value":50
+								}
+							],
+							"type":"RentalReimbursement"
 						}
 					],
 					"lengthOfOwnership":"ShorterThan90Days",
@@ -175,77 +189,6 @@
 					"trimCode":"1",
 					"vin":"1GMDX03E63D154385",
 					"year":2003
-				},
-				{
-					"businessUse":"NonBusinessUse",
-					"costSymbol":"043",
-					"coverages":[
-						{
-							"limits":[
-								{
-									"type":"PerPerson",
-									"value":250000
-								},
-								{
-									"type":"PerOccurrence",
-									"value":500000
-								}
-							],
-							"type":"BodilyInjury"
-						},
-						
-						{
-							"limits":[
-								{
-									"type":"PerOccurrence",
-									"value":250000
-								}
-							],
-							"type":"PropertyDamage"
-						},
-						{
-							"limits":[
-								{
-									"type":"PerPerson",
-									"value":5000
-								}
-							],
-							"type":"MedicalPayments"
-						},
-						{
-							"limits":[
-								{
-									"type":"PerPerson",
-									"value":25000
-								},
-								{
-									"type":"PerOccurrence",
-									"value":50000
-								}
-							],
-							"type":"UninsuredMotorist"
-						},
-						{
-							"limits":[
-								{
-									"type":"PerOccurrence",
-									"value":100
-								}
-							],
-							"type":"RoadsideAssistance"
-						}
-					],
-					"lengthOfOwnership":"ShorterThan90Days",
-					"make":"Lexus",
-					"model":"RX 400H",
-					"ownership":"Owned",
-					"previouslyInsured":true,
-					"pseudoVin":" T HW 1U",
-					"sequence":2,
-					"trim":"AWD",
-					"trimCode":"1",
-					"vin":"JTJHW31U072030941",
-					"year":2007
 				}
 			]
 		}
